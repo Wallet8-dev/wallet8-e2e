@@ -12,6 +12,11 @@ The flows (WALLET8-1's acceptance):
    screen shows the requested claims, the presentation completes.
 3. The vault: the list renders the stored credential.
 
+The negative surfaces the OIDF wallet-role suites demand are exercised
+here too (the visible error screens: a bad-signature request object, a
+missing nonce, an unsatisfiable DCQL query - never an empty or partial
+vp_token).
+
 The harness lands with the wallet app's driver wiring (the OIDF-ISO-1
 rig cells drive the exact protocol shapes against the platform
 first; the wallet-side flows follow).

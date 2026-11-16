@@ -1,0 +1,25 @@
+// SPDX-FileCopyrightText: Copyright Logically Magic Inc. <hello@logicallymagic.com>
+// SPDX-FileCopyrightText: Copyright Hamid Jahanzad <Hamid@Jahanzad.com>
+// SPDX-License-Identifier: Apache-2.0
+
+// playwright.config.ts - the wallet8 e2e (the bank8-e2e pattern: the
+// webServer-less run against the deployed fleet).
+
+import { defineConfig } from '@playwright/test';
+
+const WALLET_BASE_URL =
+  process.env.WALLET8_WALLET_URL ?? 'https://wallet8.wallet8.ops.sys.local.sentin8.dev';
+
+export default defineConfig({
+  testDir: './tests',
+  timeout: 60_000,
+  expect: { timeout: 15_000 },
+  fullyParallel: false,
+  retries: process.env.CI ? 1 : 0,
+  reporter: [['list']],
+  use: {
+    baseURL: WALLET_BASE_URL,
+    ignoreHTTPSErrors: false,
+    screenshot: 'only-on-failure',
+  },
+});

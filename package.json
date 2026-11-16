@@ -1,0 +1,21 @@
+{
+  "name": "wallet8-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wallet8 vertical end-to-end test suite (TypeScript + official Playwright) - the OIDF wallet-role certification surfaces.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --use-openssl-ca node_modules/@playwright/test/cli.js test --max-failures=1 tests/wallet8_flows.spec.ts",
+    "test:negatives": "node --use-openssl-ca node_modules/@playwright/test/cli.js test tests/negatives.spec.ts",
+    "install-browsers": "playwright install chromium",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}
