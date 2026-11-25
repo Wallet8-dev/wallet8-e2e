@@ -16,14 +16,22 @@
 // e2e pattern - waitForFlutterSemantics + clickFlutterButton).
 
 import { test, expect, type Page } from '@playwright/test';
+import { platformDomain } from '../fixtures/env.js';
+
+// The counterparty hosts ride the SAME domain as the fleet under test
+// (they are platform services, not per-tenant instances). Deriving them
+// keeps the local-dev fixture URIs working on any SENTIN8_DOMAIN instead
+// of pinning the suite to `local.sentin8.dev`; the rig still overrides
+// them wholesale via WALLET8_TEST_OFFER_URI / WALLET8_TEST_REQUEST_URI.
+const DOMAIN = platformDomain();
 
 const OFFER_URI = async () =>
   process.env.WALLET8_TEST_OFFER_URI ??
-  'openid-credential-offer://?credential_offer=%7B%22credential_issuer%22%3A%22https%3A%2F%2Fissuer.wallet8.ops.sys.local.sentin8.dev%22%2C%22credential_configuration_ids%22%3A%5B%22org.iso.18013.5.1.mDL%22%5D%7D';
+  `openid-credential-offer://?credential_offer=%7B%22credential_issuer%22%3A%22https%3A%2F%2Fissuer.wallet8.ops.sys.${encodeURIComponent(DOMAIN)}%22%2C%22credential_configuration_ids%22%3A%5B%22org.iso.18013.5.1.mDL%22%5D%7D`;
 
 const REQUEST_URI = async () =>
   process.env.WALLET8_TEST_REQUEST_URI ??
-  'https://verifier.wallet8.ops.sys.local.sentin8.dev/request/pid-age-over-18';
+  `https://verifier.wallet8.ops.sys.${DOMAIN}/request/pid-age-over-18`;
 
 async function navigateDeepLink(page: Page, uri: string) {
   // The web deep-link form (the /offer + /request routes carry the
